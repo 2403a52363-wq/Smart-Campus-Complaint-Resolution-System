@@ -212,227 +212,214 @@ function App() {
   }
 
   // ADMIN DASHBOARD
-
   // ADMIN DASHBOARD
-  if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
-    return (
+if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
+  return (
+    <div style={{
+      minHeight: "100vh",
+      padding: "35px 5%",
+      background: "linear-gradient(135deg, #fff7ed, #ffedd5)",
+      fontFamily: "'Segoe UI', Arial, sans-serif"
+    }}>
       <div style={{
-        minHeight: "100vh",
-        padding: "35px 5%",
-        background: "linear-gradient(135deg, #fff7ed, #ffedd5)",
-        fontFamily: "'Segoe UI', Arial, sans-serif"
+        maxWidth: "1100px",
+        margin: "auto",
+        padding: "30px",
+        borderRadius: "20px",
+        color: "white",
+        background: "linear-gradient(120deg, #9a3412, #e58b32)"
       }}>
-        <div style={{
-          maxWidth: "1100px",
-          margin: "auto",
-          padding: "30px",
-          borderRadius: "20px",
-          color: "white",
-          background: "linear-gradient(120deg, #9a3412, #e58b32)"
-        }}>
-          <h1>SmartCampus Admin Portal</h1>
-          <p>Welcome, {loggedInUser.full_name}!</p>
-        </div>
+        <h1>SmartCampus Admin Portal</h1>
+        <p>Welcome, {loggedInUser.full_name}!</p>
+      </div>
 
-        <div style={{
-          maxWidth: "1100px",
-          margin: "30px auto",
-          padding: "30px",
-          background: "white",
-          borderRadius: "18px"
-        }}>
-          <h2>Admin Dashboard</h2>
+      <div style={{
+        maxWidth: "1100px",
+        margin: "30px auto",
+        padding: "30px",
+        background: "white",
+        borderRadius: "18px"
+      }}>
+        <h2>Admin Dashboard</h2>
 
-          <button
-            onClick={async () => {
-              try {
-                const response = await fetch(
-                  "https://smart-campus-backend-4ugy.onrender.com/admin/complaints",
-                  {
-                    method: "GET",
-                    headers: {
-                      "Authorization": `Bearer ${loggedInUser.access_token}`,
-                      "Content-Type": "application/json"
-                    }
-                  }
-                );
+        <button
+          onClick={async () => {
+            try {
+              const response = await fetch(
+                "https://smart-campus-backend-4ugy.onrender.com/admin/complaints"
+              );
 
-                const data = await response.json();
+              const data = await response.json();
 
-                if (!response.ok) {
-                  alert(data.detail || "Unable to load complaints");
-                  return;
-                }
-
-                setAllComplaints(Array.isArray(data) ? data : []);
-
-                if (Array.isArray(data) && data.length === 0) {
-                  alert("No complaints found.");
-                }
-              } catch (error) {
-                alert("Backend connection failed!");
+              if (!response.ok) {
+                alert(data.detail || "Unable to load complaints");
+                return;
               }
-            }}
-            style={{
-              marginTop: "20px",
-              padding: "13px 22px",
-              background: "#e58b32",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer"
-            }}
-          >
-            View All Complaints
-          </button>
 
-          {/* ASSIGN COMPLAINT TO STAFF */}
-          <div style={{
-            marginTop: "25px",
-            padding: "22px",
-            background: "#fff7ed",
-            borderRadius: "14px",
-            border: "1px solid #fed7aa"
-          }}>
-            <h3 style={{ marginBottom: "12px" }}>
-              Assign Complaint to Staff
-            </h3>
+              setAllComplaints(data);
 
-            <form onSubmit={async (e) => {
-              e.preventDefault();
-
-              try {
-                const response = await fetch(
-                  "https://smart-campus-backend-4ugy.onrender.com/admin/assign",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": `Bearer ${loggedInUser.access_token}`
-                    },
-                    body: JSON.stringify({
-                      complaint_id: Number(assignComplaintId),
-                      staff_id: Number(assignStaffId),
-                      assigned_by: loggedInUser.user_id
-                    })
-                  }
-                );
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                  alert(data.detail || "Complaint assignment failed");
-                  return;
-                }
-
-                alert("Complaint assigned successfully!");
-                setAssignComplaintId("");
-                setAssignStaffId("");
-
-              } catch (error) {
-                alert("Backend connection failed!");
-              }
-            }}>
-              <input
-                type="number"
-                min="1"
-                value={assignComplaintId}
-                onChange={(e) => setAssignComplaintId(e.target.value)}
-                placeholder="Enter Complaint ID"
-                required
-                style={{
-                  display: "block",
-                  width: "100%",
-                  padding: "13px",
-                  margin: "12px 0",
-                  border: "1px solid #ddd",
-                  borderRadius: "9px"
-                }}
-              />
-
-              <input
-                type="number"
-                min="1"
-                value={assignStaffId}
-                onChange={(e) => setAssignStaffId(e.target.value)}
-                placeholder="Enter Staff User ID"
-                required
-                style={{
-                  display: "block",
-                  width: "100%",
-                  padding: "13px",
-                  margin: "12px 0",
-                  border: "1px solid #ddd",
-                  borderRadius: "9px"
-                }}
-              />
-
-              <button
-                type="submit"
-                style={{
-                  padding: "13px 22px",
-                  background: "#9a3412",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "9px",
-                  cursor: "pointer"
-                }}
-              >
-                Assign Complaint
-              </button>
-            </form>
-          </div>
-
-          <h3 style={{ marginTop: "30px" }}>
-            Complaint Records
+            } catch (error) {
+              alert("Backend connection failed!");
+            }
+          }}
+          style={{
+            marginTop: "20px",
+            padding: "13px 22px",
+            background: "#e58b32",
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            cursor: "pointer"
+          }}
+        >
+          View All Complaints
+        </button>
+                {/* ASSIGN COMPLAINT TO STAFF */}
+        <div style={{
+          marginTop: "25px",
+          padding: "22px",
+          background: "#fff7ed",
+          borderRadius: "14px",
+          border: "1px solid #fed7aa"
+        }}>
+          <h3 style={{ marginBottom: "12px" }}>
+            Assign Complaint to Staff
           </h3>
 
-          {allComplaints.length === 0 ? (
-            <p style={{ marginTop: "15px", color: "#777" }}>
-              No complaints loaded. Click View All Complaints.
-            </p>
-          ) : (
-            allComplaints.map((complaint) => (
-              <div
-                key={complaint.complaint_id}
-                style={{
-                  marginTop: "18px",
-                  padding: "20px",
-                  background: "#fff7ed",
-                  borderRadius: "12px",
-                  borderLeft: "5px solid #e58b32"
-                }}
-              >
-                <h3>{complaint.title}</h3>
-                <p>Complaint ID: {complaint.complaint_id}</p>
-                <p>Student ID: {complaint.student_id}</p>
-                <p>Description: {complaint.description}</p>
-                <p>Category: {complaint.category}</p>
-                <p>Priority: {complaint.priority}</p>
-                <p>Status: <strong>{complaint.status}</strong></p>
-              </div>
-            ))
-          )}
+          <form onSubmit={async (e) => {
+            e.preventDefault();
 
-          <button
-            onClick={logout}
-            style={{
-              marginTop: "30px",
-              padding: "13px 30px",
-              background: "#dc3545",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer"
-            }}
-          >
-            Logout
-          </button>
+            try {
+              const response = await fetch(
+                "https://smart-campus-backend-4ugy.onrender.com/admin/assign",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    complaint_id: Number(assignComplaintId),
+                    staff_id: Number(assignStaffId),
+                    assigned_by: loggedInUser.user_id
+                  })
+                }
+              );
+
+              const data = await response.json();
+
+              if (!response.ok) {
+                alert(data.detail || "Complaint assignment failed");
+                return;
+              }
+
+              alert("Complaint assigned successfully!");
+              setAssignComplaintId("");
+              setAssignStaffId("");
+
+            } catch (error) {
+              alert("Backend connection failed!");
+            }
+          }}>
+
+            <input
+              type="number"
+              min="1"
+              value={assignComplaintId}
+              onChange={(e) => setAssignComplaintId(e.target.value)}
+              placeholder="Enter Complaint ID"
+              required
+              style={{
+                display: "block",
+                width: "100%",
+                padding: "13px",
+                margin: "12px 0",
+                border: "1px solid #ddd",
+                borderRadius: "9px"
+              }}
+            />
+
+            <input
+              type="number"
+              min="1"
+              value={assignStaffId}
+              onChange={(e) => setAssignStaffId(e.target.value)}
+              placeholder="Enter Staff User ID"
+              required
+              style={{
+                display: "block",
+                width: "100%",
+                padding: "13px",
+                margin: "12px 0",
+                border: "1px solid #ddd",
+                borderRadius: "9px"
+              }}
+            />
+
+            <button
+              type="submit"
+              style={{
+                padding: "13px 22px",
+                background: "#9a3412",
+                color: "white",
+                border: "none",
+                borderRadius: "9px",
+                cursor: "pointer"
+              }}
+            >
+              Assign Complaint
+            </button>
+          </form>
         </div>
-      </div>
-    );
-  }
 
+        <h3 style={{ marginTop: "30px" }}>
+          Complaint Records
+        </h3>
+
+        {allComplaints.length === 0 ? (
+          <p style={{ marginTop: "15px", color: "#777" }}>
+            No complaints loaded. Click View All Complaints.
+          </p>
+        ) : (
+          allComplaints.map((complaint) => (
+            <div
+              key={complaint.complaint_id}
+              style={{
+                marginTop: "18px",
+                padding: "20px",
+                background: "#fff7ed",
+                borderRadius: "12px",
+                borderLeft: "5px solid #e58b32"
+              }}
+            >
+              <h3>{complaint.title}</h3>
+              <p>Complaint ID: {complaint.complaint_id}</p>
+              <p>Student ID: {complaint.student_id}</p>
+              <p>Description: {complaint.description}</p>
+              <p>Category: {complaint.category}</p>
+              <p>Priority: {complaint.priority}</p>
+              <p>Status: <strong>{complaint.status}</strong></p>
+            </div>
+          ))
+        )}
+
+        <button
+          onClick={logout}
+          style={{
+            marginTop: "30px",
+            padding: "13px 30px",
+            background: "#dc3545",
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            cursor: "pointer"
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
+}
 
   // STUDENT DASHBOARD
   if (loggedInUser) {
@@ -515,34 +502,24 @@ function App() {
             line-height: 1.7;
           }
 
+          .dashboard-app input,
+          .dashboard-app textarea,
+          .dashboard-app select {
+            display: block;
+            width: 100%;
+            margin: 13px 0;
+            padding: 14px;
+            border: 1px solid #ded9f5;
+            border-radius: 10px;
+            background: #faf9ff;
+            font-size: 15px;
+            font-family: inherit;
+          }
 
-.dashboard-app input,
-.dashboard-app textarea,
-.dashboard-app select {
-  display: block;
-  width: 100%;
-  margin: 13px 0;
-  padding: 14px;
-  border: 1px solid #b8b3cc;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #222222;
-  font-size: 16px;
-  font-family: inherit;
-  opacity: 1;
-}
-
-.dashboard-app input::placeholder,
-.dashboard-app textarea::placeholder {
-  color: #666666;
-  opacity: 1;
-}
-
-.dashboard-app textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
+          .dashboard-app textarea {
+            min-height: 120px;
+            resize: vertical;
+          }
 
           .dashboard-app input:focus,
           .dashboard-app textarea:focus,
@@ -1244,7 +1221,7 @@ function App() {
                       "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                      email: email,
+                      email: email.trim(),
                       password: password
                     })
                   }
