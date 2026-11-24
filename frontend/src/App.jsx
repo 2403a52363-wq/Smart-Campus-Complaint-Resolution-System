@@ -29,7 +29,7 @@ function App() {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/complaints/${loggedInUser.user_id}`)
+    fetch(`https://smart-campus-backend-4ugy.onrender.com/complaints/${loggedInUser.user_id}`)
       .then((response) => response.json())
       .then((data) => setMyComplaints(data))
       .catch((error) => console.log("Error loading complaints:", error));
@@ -151,7 +151,7 @@ function App() {
 
               try {
                 const response = await fetch(
-                  `http://127.0.0.1:8000/complaints/${staffComplaintId}/status`,
+                  `https://smart-campus-backend-4ugy.onrender.com/complaints/${staffComplaintId}/status`,
                   {
                     method: "PUT",
                     headers: {
@@ -246,7 +246,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
           onClick={async () => {
             try {
               const response = await fetch(
-                "http://127.0.0.1:8000/admin/complaints"
+                "https://smart-campus-backend-4ugy.onrender.com/admin/complaints"
               );
 
               const data = await response.json();
@@ -291,7 +291,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
 
             try {
               const response = await fetch(
-                "http://127.0.0.1:8000/admin/assign",
+                "https://smart-campus-backend-4ugy.onrender.com/admin/assign",
                 {
                   method: "POST",
                   headers: {
@@ -593,7 +593,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
 
                 try {
                   const response = await fetch(
-                    "http://127.0.0.1:8000/complaints",
+                    "https://smart-campus-backend-4ugy.onrender.com/complaints",
                     {
                       method: "POST",
                       headers: {
@@ -627,7 +627,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
                   setPriority("Medium");
 
                   const refreshResponse = await fetch(
-                    `http://127.0.0.1:8000/complaints/${loggedInUser.user_id}`
+                    `https://smart-campus-backend-4ugy.onrender.com/complaints/${loggedInUser.user_id}`
                   );
 
                   const refreshedData = await refreshResponse.json();
@@ -766,7 +766,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
 
                         try {
                           const response = await fetch(
-                            "http://127.0.0.1:8000/feedback",
+                            "https://smart-campus-backend-4ugy.onrender.com/feedback",
                             {
                               method: "POST",
                               headers: {
@@ -1214,7 +1214,7 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
 
               try {
                 const response = await fetch(
-                  "http://127.0.0.1:8000/login",
+                  "https://smart-campus-backend-4ugy.onrender.com/login",
                   {
                     method: "POST",
                     headers: {
