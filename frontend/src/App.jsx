@@ -502,24 +502,34 @@ if (loggedInUser && loggedInUser.role.toLowerCase() === "admin") {
             line-height: 1.7;
           }
 
-          .dashboard-app input,
-          .dashboard-app textarea,
-          .dashboard-app select {
-            display: block;
-            width: 100%;
-            margin: 13px 0;
-            padding: 14px;
-            border: 1px solid #ded9f5;
-            border-radius: 10px;
-            background: #faf9ff;
-            font-size: 15px;
-            font-family: inherit;
-          }
 
-          .dashboard-app textarea {
-            min-height: 120px;
-            resize: vertical;
-          }
+.dashboard-app input,
+.dashboard-app textarea,
+.dashboard-app select {
+  display: block;
+  width: 100%;
+  margin: 13px 0;
+  padding: 14px;
+  border: 1px solid #b8b3cc;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #222222;
+  font-size: 16px;
+  font-family: inherit;
+  opacity: 1;
+}
+
+.dashboard-app input::placeholder,
+.dashboard-app textarea::placeholder {
+  color: #666666;
+  opacity: 1;
+}
+
+.dashboard-app textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
 
           .dashboard-app input:focus,
           .dashboard-app textarea:focus,
